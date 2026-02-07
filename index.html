@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单词测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .word-display {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        input {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        button {
+            width: 80%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .result {
+            margin-top: 15px;
+            font-size: 16px;
+            min-height: 25px;
+        }
+        
+        .correct {
+            color: green;
+        }
+        
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="word-display" id="wordDisplay">apple</div>
+        <input type="text" id="answerInput" placeholder="请输入中文意思">
+        <button onclick="checkAnswer()">提交</button>
+        <div class="result" id="result"></div>
+        <button onclick="nextWord()">下一个</button>
+    </div>
+
+    <script>
+        const words = [
+            { english: 'apple', chinese: '苹果' },
+            { english: 'banana', chinese: '香蕉' },
+            { english: 'cat', chinese: '猫' },
+            { english: 'dog', chinese: '狗' },
+            { english: 'elephant', chinese: '大象' },
+            { english: 'book', chinese: '书' },
+            { english: 'water', chinese: '水' },
+            { english: 'sun', chinese: '太阳' }
+        ];
+        
+        let currentIndex = 0;
+        
+        function loadWord() {
+            document.getElementById('wordDisplay').textContent = words[currentIndex].english;
+            document.getElementById('answerInput').value = '';
+            document.getElementById('result').textContent = '';
+            document.getElementById('result').className = 'result';
+        }
+        
+        function checkAnswer() {
+            const userInput = document.getElementById('answerInput').value.trim();
+            const correctAnswer = words[currentIndex].chinese;
+            
+            if (userInput === correctAnswer) {
+                document.getElementById('result').textContent = '正确！';
+                document.getElementById('result').className = 'result correct';
+            } else {
+                document.getElementById('result').textContent = `错误，正确答案是：${correctAnswer}`;
+                document.getElementById('result').className = 'result incorrect';
+            }
+        }
+        
+        function nextWord() {
+            currentIndex = (currentIndex + 1) % words.length;
+            loadWord();
+        }
+        
+        // 页面加载时初始化
+        window.onload = loadWord;
+    </script>
+</body>
+</html>
